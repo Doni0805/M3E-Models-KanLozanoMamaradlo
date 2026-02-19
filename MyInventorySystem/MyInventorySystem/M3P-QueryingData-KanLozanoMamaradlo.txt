@@ -1,42 +1,94 @@
-# Get all WaterBottles
-WaterBottle.objects.all()
+GIVEN PROMPTS
 
-# Get all Suppliers sorted alphabetically by country
-Supplier.objects.all().order_by('country')
+# A: All WaterBottles
+[P: GIVEN] [S:KANFelipe] WaterBottle.objects.all()
 
-# Get all WaterBottles sorted alphabetically by brand
-WaterBottle.objects.all().order_by('brand')
+# B: All Suppliers sorted by country, alphabetically
+[P: GIVEN] [S:LOZANOEnya] Supplier.objects.all().order_by('country')
 
-# Get all black WaterBottles (case insensitive)
-WaterBottle.objects.filter(color__iexact='black')
+# C: All WaterBottles sorted by brand, alphabetically
+[P: GIVEN] [S:MAMARADLODoni] WaterBottle.objects.all().order_by('brand')
 
-# Get all white HydroFlask WaterBottles
-WaterBottle.objects.filter(color__iexact='white', brand__iexact='HydroFlask')
+# D: All black WaterBottles
+[P: GIVEN] [S:KANFelipe] WaterBottle.objects.filter(color__iexact='black')
 
-# Get all WaterBottles supplied by Sailfish Inc
-WaterBottle.objects.filter(supplierName__name__iexact='Sailfish Inc')
+# E: All white HydroFlask WaterBottles
+[P: GIVEN] [S:LOZANOEnya] WaterBottle.objects.filter(color__iexact='white', brand__iexact='HydroFlask')
 
-# Get all blue WaterBottles supplied by Bucky Inc
-WaterBottle.objects.filter(
-    color__iexact='blue',
-    supplierName__name__iexact='Bucky Inc'
-)
+# F: All WaterBottles supplied by Sailfish Inc
+[P: GIVEN] [S:MAMARADLODoni] WaterBottle.objects.filter(supplierName__name__iexact='Sailfish Inc')
 
-# Get only the name of suppliers from Germany
-Supplier.objects.filter(country__iexact='Germany').values_list('name', flat=True)
+# G: All blue WaterBottles supplied by Bucky Inc
+[P: GIVEN] [S:KANFelipe] WaterBottle.objects.filter(color__iexact='blue',supplierName__name__iexact='Bucky Inc')
 
-# Get all WaterBottles that cost 3000 or higher
-WaterBottle.objects.filter(cost__gte=3000)
+# H: Only the name of the supplier from Germany
+[P: GIVEN] [S:LOZANOEnya] Supplier.objects.filter(country__iexact='Germany').values_list('name', flat=True)
 
-# Get all WaterBottles supplied by either Bucky Inc or Meister Inc
-WaterBottle.objects.filter(
-    supplierName__name__in=['Bucky Inc', 'Meister Inc']
-)
+# I: All WaterBottles that cost 3000 or higher
+[P: GIVEN] [S:MAMARADLODoni] WaterBottle.objects.filter(cost__gte=3000)
 
-# Get all WaterBottles with "oz" in size, sorted from most expensive to least
-WaterBottle.objects.filter(size__icontains='oz').order_by('-cost')
+# J: All WaterBottles supplied by either Bucky Inc or Meister Inc
+[P: GIVEN] [S:KANFelipe] WaterBottle.objects.filter(supplierName__name__in=['Bucky Inc', 'Meister Inc'])
 
-# Get all WaterBottles that DO NOT cost 3000 and have a wide mouth
-WaterBottle.objects.filter(
-    mouthSize__icontains='wide'
-).exclude(cost=3000)
+# K: All WaterBottles that have Oz as the unit of its size, sorted by cost from most expensive to least expensive
+[P: GIVEN] [S:LOZANOEnya] WaterBottle.objects.filter(size__icontains='oz').order_by('-cost')
+
+# L: All WaterBottles that DO NOT cost 3000 and have a wide mouth
+[P: GIVEN] [S:MAMARADLODoni] WaterBottle.objects.filter(mouthSize__icontains='wide').exclude(cost=3000)
+
+
+NEW PROMPTS
+
+# P1: All WaterBottles that cost less than 3000
+[P: MAMARADLODoni] [S:KANFelipe] WaterBottle.objects.filter(cost__lt=3000)
+
+# P2: All WaterBottles with narrow mouth
+[P: LOZANOEnya] [S:KANFelipe] WaterBottle.objects.filter(mouth_type='narrow')
+
+# P3: All WaterBottles of brand starting with 'H'
+[P: MAMARADLODoni] [S:KANFelipe] WaterBottle.objects.filter(brand__startswith='H')
+
+# P4: All Suppliers in Japan or USA
+[P: LOZANOEnya] [S:KANFelipe] Supplier.objects.filter(country__in=['Japan','USA'])
+
+# P5: All WaterBottles sorted by size ascending
+[P: MAMARADLODoni] [S:KANFelipe] WaterBottle.objects.order_by('size')
+
+# P6: All WaterBottles that are black or blue
+[P: LOZANOEnya] [S:KANFelipe] WaterBottle.objects.filter(color__in=['black','blue'])
+
+# P7: All Suppliers located in the Philippines
+[P: LOZANOEnya] [S:MAMARADLODoni] Supplier.objects.filter(country__iexact='Philippines')
+
+# P8: All WaterBottles that cost less than or equal to 2000
+[P: KANFelipe] [S:MAMARADLODoni] WaterBottle.objects.filter(cost__lte=2000)
+
+# P9: All WaterBottles with brand containing "Flask"
+[P: LOZANOEnya] [S:MAMARADLODoni] WaterBottle.objects.filter(brand__icontains='Flask')
+
+# P10: All Suppliers whose name starts with "E"
+[P: KANFelipe] [S:MAMARADLODoni] Supplier.objects.filter(name__startswith='E')
+
+# P11: All WaterBottles that are red or green
+[P: LOZANOEnya] [S:MAMARADLODoni] WaterBottle.objects.filter(color__in=['red','green'])
+
+# P12: All WaterBottles with brand containing "Kleen"
+[P: KANFelipe] [S:MAMARADLODoni] WaterBottle.objects.filter(brand__icontains='Kleen')
+
+# P13: All WaterBottles of brand starting with 'S'
+[P: MAMARADLODoni] [S:LOZANOEnya] WaterBottle.objects.filter(brand__startswith='S')
+
+# P14: All WaterBottles of size 48oz
+[P: KANFelipe] [S:LOZANOEnya] WaterBottle.objects.filter(size__iexact='48 Oz')
+
+# P15: All Suppliers from the Philippines and of size 1L
+[P: MAMARADLODoni] [S:LOZANOEnya] Supplier.objects.filter(country__in='Philippines', size__iexact='1 Liter')
+
+# P16: All WaterBottles supplied by Enya
+[P: KANFelipe] [S:LOZANOEnya] WaterBottle.objects.filter(supplierName__name__iexact='Enya')
+
+# P17: All WaterBottles supplied by Felipe and costing more than 1000
+[P: MAMARADLODoni] [S:LOZANOEnya] WaterBottle.objects.filter(supplierName__name__iexact='Felipe', cost__gte=1000)
+
+# P18: All WaterBottles sorted alphabetically by colors 
+[P: KANFelipe] [S: LOZANOEnya] WaterBottle.objects.all().order_by('color')
