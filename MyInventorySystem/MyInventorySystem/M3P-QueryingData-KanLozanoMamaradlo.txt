@@ -1,0 +1,42 @@
+# Get all WaterBottles
+WaterBottle.objects.all()
+
+# Get all Suppliers sorted alphabetically by country
+Supplier.objects.all().order_by('country')
+
+# Get all WaterBottles sorted alphabetically by brand
+WaterBottle.objects.all().order_by('brand')
+
+# Get all black WaterBottles (case insensitive)
+WaterBottle.objects.filter(color__iexact='black')
+
+# Get all white HydroFlask WaterBottles
+WaterBottle.objects.filter(color__iexact='white', brand__iexact='HydroFlask')
+
+# Get all WaterBottles supplied by Sailfish Inc
+WaterBottle.objects.filter(supplierName__name__iexact='Sailfish Inc')
+
+# Get all blue WaterBottles supplied by Bucky Inc
+WaterBottle.objects.filter(
+    color__iexact='blue',
+    supplierName__name__iexact='Bucky Inc'
+)
+
+# Get only the name of suppliers from Germany
+Supplier.objects.filter(country__iexact='Germany').values_list('name', flat=True)
+
+# Get all WaterBottles that cost 3000 or higher
+WaterBottle.objects.filter(cost__gte=3000)
+
+# Get all WaterBottles supplied by either Bucky Inc or Meister Inc
+WaterBottle.objects.filter(
+    supplierName__name__in=['Bucky Inc', 'Meister Inc']
+)
+
+# Get all WaterBottles with "oz" in size, sorted from most expensive to least
+WaterBottle.objects.filter(size__icontains='oz').order_by('-cost')
+
+# Get all WaterBottles that DO NOT cost 3000 and have a wide mouth
+WaterBottle.objects.filter(
+    mouthSize__icontains='wide'
+).exclude(cost=3000)
